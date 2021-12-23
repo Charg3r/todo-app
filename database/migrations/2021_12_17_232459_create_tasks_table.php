@@ -16,12 +16,12 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('tag')->nullable();
+            $table->string('name', 50);
+            $table->string('description', 250)->nullable();
+            $table->string('tag', 25)->nullable();
             $table->boolean('completed')->default(false);
-            $table->dateTime('due_date')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->date('due_date')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->nullable();
             $table->timestamps();
         });
     }

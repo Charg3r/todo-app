@@ -37,6 +37,10 @@ class TaskController extends Controller
     {
         $newTask = new Task;
         $newTask->name = $request->task['name'];
+        $newTask->description = $request->task['description'];
+        $newTask->tag = $request->task['tag'];
+        $newTask->due_date = $request->task['due_date'];
+        $newTask->user_id = $request->task['user_id'];
         $newTask->save();
 
         return $newTask;
@@ -50,7 +54,8 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+        $task = Task::find($id);
+        return $task;
     }
 
     /**
@@ -79,14 +84,26 @@ class TaskController extends Controller
             $task->name = $request->task['name'];
             $task->description = $request->task['description'];
             $task->tag = $request->task['tag'];
-            $task->completed = $request->task['completed'];
             $task->due_date = $request->task['due_date'];
-            $task->user_id = $request->task['user_id'];
+            if ($task->user_id) $task->user_id = $request->task['user_id'];
             $task->save();
-            return $task;
         } else {
             return "Task does not exist";
         }
+        return $task;
+    }
+
+    public function toggleComplete($id) 
+    {
+        $task = Task::find($id);
+        
+        if ($task) // Check if task exists
+            $task->completed ? $task->completed = false : $task->completed = true;
+        else
+            return "Task does not exist";
+        $task->save();
+        
+        return $task->completed;
     }
 
     /**
