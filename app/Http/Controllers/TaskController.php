@@ -8,7 +8,7 @@ use App\Models\Task;
 class TaskController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display all tasks ordered by descending date of creation.
      *
      * @return \Illuminate\Http\Response
      */
@@ -18,17 +18,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Store a new task
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -59,18 +49,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Update a task with a given id.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -85,13 +64,21 @@ class TaskController extends Controller
             $task->description = $request->task['description'];
             $task->tag = $request->task['tag'];
             $task->due_date = $request->task['due_date'];
-            if ($task->user_id) $task->user_id = $request->task['user_id'];
+            $task->user_id = $request->task['user_id'];
             $task->save();
         } else {
             return "Task does not exist";
         }
         return $task;
     }
+
+    /**
+     * Update a task's completion status with a given id
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
     public function toggleComplete($id) 
     {
@@ -103,11 +90,11 @@ class TaskController extends Controller
             return "Task does not exist";
         $task->save();
         
-        return $task->completed;
+        return $task;
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove a task with a gicen id.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

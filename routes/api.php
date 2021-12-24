@@ -36,6 +36,7 @@ Route::prefix('/task')->group (function () {
     Route::delete('/{id}', [TaskController::class, 'destroy']);
     }
 );
-
+// GET -> Returns all users
 Route::get('/users', [UserController::class, 'index']);
+// POST -> Creates a new user
 Route::get('/user/{id}', [UserController::class, 'show']);
